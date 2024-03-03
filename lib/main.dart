@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Temp',
+      title: 'Temp123',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
