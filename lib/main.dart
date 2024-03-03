@@ -23,9 +23,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Temp123',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: const LoginScreen(),
     );
   }
