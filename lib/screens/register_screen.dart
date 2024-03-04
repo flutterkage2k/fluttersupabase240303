@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttersupabase240303/services/auth_service.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -25,15 +27,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Column(
         children: [
           Container(
-            height: screenHeight / 3,
+            height: screenHeight / 4,
             width: screenWidth,
             decoration: const BoxDecoration(
               color: Colors.redAccent,
               borderRadius: BorderRadius.only(bottomRight: Radius.circular(70)),
             ),
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Icon(
                   Icons.qr_code_scanner,
                   color: Colors.white,
@@ -61,18 +63,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               children: [
                 TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text('Email'),
                     prefixIcon: Icon(Icons.person),
                     border: OutlineInputBorder(),
                   ),
                   controller: _emailController,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text('Password'),
                     prefixIcon: Icon(Icons.lock),
                     border: OutlineInputBorder(),
@@ -83,23 +85,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                SizedBox(
-                  height: 60,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    ),
-                    child: Text(
-                      'Register',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                )
+                Consumer<AuthService>(builder: (context, authServiceProvider, child) {
+                  return SizedBox(
+                    height: 60,
+                    width: double.infinity,
+                    child: authServiceProvider.isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ElevatedButton(
+                            onPressed: () {
+                              authServiceProvider.registerEmployee(
+                                _emailController.text.trim(),
+                                _passwordController.text.trim(),
+                                context,
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.redAccent,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                            ),
+                            child: const Text(
+                              'Register',
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                  );
+                })
               ],
             ),
           )
