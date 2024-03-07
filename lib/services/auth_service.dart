@@ -22,7 +22,10 @@ class AuthService extends ChangeNotifier {
       if (email == "" || password == "") {
         throw ("All Fields are required");
       }
-      final AuthResponse response = await _supabase.auth.signUp(email: email, password: password);
+      final AuthResponse response = await _supabase.auth.signUp(
+        password: password,
+        email: email,
+      );
       await _dbService.insertNewUser(email, response.user!.id);
 
       Utils.showSnackBar("Sussessfully registered !", context, color: Colors.green);
@@ -40,10 +43,7 @@ class AuthService extends ChangeNotifier {
       if (email == "" || password == "") {
         throw ("All Fields are required");
       }
-      final AuthResponse response = await _supabase.auth.signInWithPassword(
-        email: email,
-        password: password,
-      );
+      final AuthResponse response = await _supabase.auth.signInWithPassword(password: password, email: email);
       setIsLoading = false;
     } catch (e) {
       setIsLoading = false;
